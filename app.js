@@ -1,20 +1,29 @@
+var connectLivereload = require("connect-livereload");
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const livereload = require("livereload");
+
+// live reloading
+var liveReloadServer = livereload.createServer();
+
+liveReloadServer.server.once("connection", () => {
+  setTimeout(() => {
+    liveReloadServer.refresh("/");
+  }, 100);
+});
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
 
+app.use(connectLivereload());
+
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -22,18 +31,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 	
-/* example pattern */
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+/* example pattern for pulling in external routing modules */
+app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
-});
-
-// Handles any requests that don't match the ones above
-app.get('*', (req,res) =>{
-    res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
 // error handler
@@ -45,6 +48,11 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+// Handles any requests that don't match the ones above, sends them to the SPA
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
 module.exports = app;

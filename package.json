@@ -3,10 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "watch": "nodemon --ignore public"
+    "server": "nodemon ./bin/www",
+    "client": "cd client && npm run start",
+    "start": "concurrently \"npm run server\" \"npm run client\""
   },
   "dependencies": {
+    "concurrently": "^5.2.0",
     "connect-livereload": "^0.6.1",
     "cookie-parser": "~1.4.4",
     "create-react-app": "^3.4.1",

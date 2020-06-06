@@ -23,6 +23,11 @@ router.get('/', function(req, res, next) {
 			id: 4,
 			name: "Jenny",
 			email: "jenny@email.com"
+		},
+		{
+			id: 5,
+			name: 'Jeff',
+			email: "jeff@email.com"
 		}
 	]
   res.json(users);

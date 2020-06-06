@@ -18,10 +18,6 @@ Will need:
 
 # To get started:
 
-start the server:
-`npm run watch` from the root of the project
+start the app:
+Running `npm start` from the root of the project will orchestrate the server and client apps.  The client app autoreloads on save, server-side changes require a browser refresh to see changes.
 
-start the client app:
-`npm start` from /client
-
-visit localhost:3000

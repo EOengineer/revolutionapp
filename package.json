@@ -8,6 +8,7 @@
     "start": "concurrently \"npm run server\" \"npm run client\""
   },
   "dependencies": {
+    "bootstrap": "^4.5.0",
     "concurrently": "^5.2.0",
     "connect-livereload": "^0.6.1",
     "cookie-parser": "~1.4.4",
